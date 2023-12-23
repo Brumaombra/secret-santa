@@ -7,7 +7,7 @@ import Step3 from '@/views/draw/Step3.vue';
 import Step4 from '@/views/draw/Step4.vue';
 
 export default createRouter({
-    history: createWebHistory(),
+    history: createWebHistory('/santa/'),
     routes: [{
         path: '/',
         name: 'home',
