@@ -59,3 +59,8 @@ export const getListFromCookie = () => {
 export const deleteCookies = () => {
     document.cookie = "secretSantaParticipantsList=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 }
+
+// Prendo l'URL per il backend
+export const getBaseApiUrl = () => {
+    return process.env.NODE_ENV === "development" ? "http://localhost/santa/public" : "/santa";
+}

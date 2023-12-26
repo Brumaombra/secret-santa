@@ -1,11 +1,10 @@
 <script setup>
 import { reactive } from 'vue';
 import GlobalStore from '@/stores/store';
-import { getTranslation, busy, deleteCookies, actionModal, formatListEsclusi } from '@/utils/utils';
+import { getTranslation, busy, deleteCookies, actionModal, formatListEsclusi, getBaseApiUrl } from '@/utils/utils';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
-const baseApiUrl = process.env.NODE_ENV === "development" ? "http://localhost/santa/public" : "/santa";
 const router = useRouter();
 const errorModal = reactive({
     message: ""
@@ -30,7 +29,7 @@ const handleConfermaPress = () => {
     }, 1000);
     */
 
-    axios.post(`${baseApiUrl}/api/draw.php`, object).then(response => {
+    axios.post(`${getBaseApiUrl()}/api/draw.php`, object).then(response => {
         if (response.data.code === "00") { // Success
             GlobalStore.successModal.message = response.data.message; // Messaggio di successo
             GlobalStore.successModal.list = response.data.listaMessaggi; // Lista dei messaggi
@@ -53,7 +52,7 @@ const handleConfermaPress = () => {
 const formattaPartecipanti = (partecipanti) => {
     partecipanti.forEach((partecipante, index) => {
         partecipante.id = index;
-        partecipante.esclusi = partecipante.esclusi.filter(item => item.escluso).map(item => item.id); // Rimuovo gli esclusi che non sono stati selezionati e prendo solo ID
+        partecipante.esclusi = partecipante.esclusi ? partecipante.esclusi.filter(item => item.escluso).map(item => item.id) : []; // Rimuovo gli esclusi che non sono stati selezionati e prendo solo ID
         partecipante.destinatario = null;
     });
     return partecipanti; // Ritorno l'array formattato

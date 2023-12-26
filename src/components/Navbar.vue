@@ -1,8 +1,6 @@
 <script setup>
 import GlobalStore from '../stores/store';
 import { getTranslation } from '@/utils/utils';
-
-// const baseUrl = process.env.NODE_ENV === "development" ? "" : "";
 </script>
 
 <template>
