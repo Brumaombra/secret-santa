@@ -1,6 +1,8 @@
 <script setup>
 import GlobalStore from '../stores/store';
 import { getTranslation } from '@/utils/utils';
+
+// const baseUrl = process.env.NODE_ENV === "development" ? "" : "";
 </script>
 
 <template>
@@ -30,7 +32,7 @@ import { getTranslation } from '@/utils/utils';
                 <div>
                     <div class="inline-flex flex-center justify-content-between w-100">
                         <label for="selectLingua" class="form-label">{{ getTranslation("lbl.language") }}</label>
-                        <img :src="`/img/flags/${GlobalStore.currentLanguage}-flag.png`" class="flagIconLanguage" />
+                        <img :src="`/santa/img/flags/${GlobalStore.currentLanguage}-flag.png`" class="flagIconLanguage" />
                     </div>
                     <select id="selectLingua" class="form-select w-100" v-model="GlobalStore.currentLanguage">
                         <option v-for="item in GlobalStore.availableLanguages" :value="item.code">{{ item.name }}</option>

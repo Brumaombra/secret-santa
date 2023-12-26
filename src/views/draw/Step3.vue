@@ -5,6 +5,7 @@ import { getTranslation, busy, deleteCookies, actionModal, formatListEsclusi } f
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
+const baseApiUrl = process.env.NODE_ENV === "development" ? "http://localhost/santa/public" : "/santa";
 const router = useRouter();
 const errorModal = reactive({
     message: ""
@@ -29,7 +30,7 @@ const handleConfermaPress = () => {
     }, 1000);
     */
 
-    axios.post("/santa/api/draw.php", object).then(response => {
+    axios.post(`${baseApiUrl}/api/draw.php`, object).then(response => {
         if (response.data.code === "00") { // Success
             GlobalStore.successModal.message = response.data.message; // Messaggio di successo
             GlobalStore.successModal.list = response.data.listaMessaggi; // Lista dei messaggi
