@@ -18,25 +18,6 @@ getListFromCookie();
 		<!-- Container principale -->
 		<div class="container-xxl main-content-container">
 			<RouterView />
-			<!-- Step 1
-			<div v-if="GlobalStore.currentStep === 1">
-				<Step1 />
-			</div> -->
-
-			<!-- Step 2 
-			<div v-if="GlobalStore.currentStep === 2">
-				<Step2 />
-			</div>-->
-
-			<!-- Step 3
-			<div v-if="GlobalStore.currentStep === 3">
-				<Step3 />
-			</div> -->
-
-			<!-- Step 4
-			<div v-if="GlobalStore.currentStep === 4">
-				<Step4 />
-			</div> -->
 		</div>
 
 		<!-- Busy -->

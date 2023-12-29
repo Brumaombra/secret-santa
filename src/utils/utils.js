@@ -1,5 +1,6 @@
 import GlobalStore from "@/stores/store";
 import $ from "jquery";
+import CryptoJS from "crypto-js";
 
 // Prendo il testo tradotto
 export const getTranslation = (key) => {
@@ -46,13 +47,15 @@ export const busy = (busy) => {
 // Salvo la lista degli utenti nei cookie
 export const setListOnCookies = () => {
     let objectString = JSON.stringify(GlobalStore.elencoPartecipanti);
+    objectString = encodeURIComponent(encrypt(objectString));
     document.cookie = "secretSantaParticipantsList=" + objectString + ";path=/";
 }
 
 // Prendo la lista dai cookie
 export const getListFromCookie = () => {
-    const myCookie = document.cookie?.split("; ")?.find(row => row.startsWith("secretSantaParticipantsList="))?.split("=")[1];
-    GlobalStore.elencoPartecipanti = myCookie ? JSON.parse(decodeURIComponent(myCookie)) : [];
+    let myCookie = document.cookie?.split("; ")?.find(row => row.startsWith("secretSantaParticipantsList="))?.split("=")[1];
+    myCookie = myCookie ? decrypt(decodeURIComponent(myCookie)) : "";
+    GlobalStore.elencoPartecipanti = myCookie ? JSON.parse(myCookie) : [];
 }
 
 // Elimino i cookie
@@ -63,4 +66,20 @@ export const deleteCookies = () => {
 // Prendo l'URL per il backend
 export const getBaseApiUrl = () => {
     return process.env.NODE_ENV === "development" ? "http://localhost/santa/public" : "/santa";
+}
+
+// Funzione di criptazione
+const encrypt = (text) => {
+    return CryptoJS.AES.encrypt(text, getCryptoKey()).toString();
+}
+
+// Funzione di decriptazione
+const decrypt = (cipherText) => {
+    let bytes = CryptoJS.AES.decrypt(cipherText, getCryptoKey());
+    return bytes.toString(CryptoJS.enc.Utf8);
+}
+
+// Chiave e IV per la criptazione
+const getCryptoKey = () => {
+    return "f329d76eb570a60cc8362fa5127c1601c9c77aff618171c0e3a564d36744f8ab"; // Chiave a 256 bit
 }

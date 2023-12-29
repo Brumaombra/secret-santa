@@ -5,7 +5,7 @@ import { getTranslation } from '@/utils/utils';
 
 <template>
     <!-- Header -->
-    <nav class="menu-items-wrapper navbar">
+    <nav class="menu-items-wrapper navbar sticky-top">
         <div class="container-xxl inline-flex flex-center justify-content-between w-100">
             <ul class="links">
                 <li class="link-title inline-flex flex-center">
@@ -48,7 +48,7 @@ import { getTranslation } from '@/utils/utils';
 <style scoped>
 .navbar .link-title a {
     font-size: 23px;
-    font-weight: 800;
+    font-weight: 1000;
     text-decoration: none;
 }
 

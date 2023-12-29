@@ -131,6 +131,19 @@ i.success {
     height: 100%;
 }
 
+/* Elementi di colore custom */
+.button.custom-red-style {
+    color: #FFF;
+    background-color: #EF4649;
+    box-shadow: 0 calc(var(--flatify__border-width)*1.38) 0 #c71114;
+}
+a.custom-red-style {
+    color: #EF4649;
+}
+span.custom-red-style {
+    background: #EF4649;
+}
+
 /* Margini */
 .m-0 { margin: 0 !important; }
 .mt-0 { margin-top: 0 !important; }

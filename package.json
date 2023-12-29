@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "axios": "^1.6.2",
+    "crypto-js": "^4.2.0",
     "flatifycss": "^1.5.3",
     "jquery": "^3.7.1",
     "validator": "^13.11.0",
     "vue": "^3.3.11",
-    "vue-router": "^4.2.5"
+    "vue-router": "^4.2.5",
+    "wow.js": "^1.2.2"
   },
   "devDependencies": {
     "@types/validator": "^13.11.7",
