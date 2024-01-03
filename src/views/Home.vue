@@ -1,7 +1,7 @@
 <script setup>
 import WOW from '/node_modules/wow.js/src/WOW.js';
 import { getTranslation } from '@/utils/utils';
-new WOW({ offset: 100 }).init(); // Inizializzo WOW.js
+new WOW().init(); // Inizializzo WOW.js
 </script>
 
 <template>

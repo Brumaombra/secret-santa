@@ -10,7 +10,7 @@ import { getTranslation } from '@/utils/utils';
             <ul class="links">
                 <li class="link-title inline-flex flex-center">
                     <RouterLink to="/">{{ getTranslation("lbl.navbar.app.title") }}</RouterLink>
-                    <img src="@/assets/img/secret_santa_logo.png" width="40px" class="ml-2" />
+                    <img src="/img/secret_santa_logo.png" width="40px" class="ml-2" />
                 </li>
             </ul>
             <div class="push-right">

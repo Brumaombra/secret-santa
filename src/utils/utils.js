@@ -1,6 +1,7 @@
 import GlobalStore from "@/stores/store";
 import $ from "jquery";
 import CryptoJS from "crypto-js";
+import { useRouter } from "vue-router";
 
 // Prendo il testo tradotto
 export const getTranslation = (key) => {
@@ -62,6 +63,13 @@ export const getListFromCookie = () => {
 export const deleteCookies = () => {
     document.cookie = "secretSantaParticipantsList=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
 }
+
+// Controllo se ci sono gli elementi, altrimenti redirect
+export const checkIfRedirect = () => {
+    const router = useRouter();
+    if (!(GlobalStore?.elencoPartecipanti?.length >= 3 && GlobalStore?.elencoPartecipanti[0]?.esclusi?.length))
+        router.push('/draw/step1'); // Torno all'inizio
+};
 
 // Prendo l'URL per il backend
 export const getBaseApiUrl = () => {

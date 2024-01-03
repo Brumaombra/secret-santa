@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from 'vue';
 import GlobalStore from '@/stores/store';
-import { getTranslation, busy, deleteCookies, actionModal, formatListEsclusi, getBaseApiUrl } from '@/utils/utils';
+import { getTranslation, busy, deleteCookies, actionModal, formatListEsclusi, getBaseApiUrl, checkIfRedirect } from '@/utils/utils';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 
@@ -58,6 +58,7 @@ const formattaPartecipanti = (partecipanti) => {
     return partecipanti; // Ritorno l'array formattato
 };
 
+checkIfRedirect(); // Controllo se ci sono gli elementi, altrimenti redirect
 </script>
 
 <template>

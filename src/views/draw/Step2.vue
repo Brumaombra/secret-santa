@@ -1,15 +1,21 @@
 <script setup>
 import { reactive } from 'vue';
 import GlobalStore from '@/stores/store';
-import { getTranslation, formatListEsclusi, setListOnCookies, actionModal } from '@/utils/utils';
+import { getTranslation, formatListEsclusi, setListOnCookies, actionModal, checkIfRedirect } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
-let modalEscludiPartecipanti = reactive({});
+let modalEscludiPartecipanti = reactive({
+    nome: "",
+    email: "",
+    esclusi: []
+});
 
 // Apro il dialog per escludere i partecipanti
 const handleOpenEscludiDialogPress = (index) => {
-    Object.assign(modalEscludiPartecipanti, GlobalStore.elencoPartecipanti[index]);
+    modalEscludiPartecipanti.nome = GlobalStore.elencoPartecipanti[index].nome;
+    modalEscludiPartecipanti.email = GlobalStore.elencoPartecipanti[index].email;
+    modalEscludiPartecipanti.esclusi = GlobalStore.elencoPartecipanti[index].esclusi;
     actionModal("modalEscludiPartecipanti", "open"); // Apro il modal
 };
 
@@ -17,6 +23,8 @@ const handleOpenEscludiDialogPress = (index) => {
 const onDialogEsclusiClose = () => {
     setListOnCookies(); // Salvo lista su cookie
 };
+
+checkIfRedirect(); // Controllo se ci sono gli elementi, altrimenti redirect
 </script>
 
 <template>

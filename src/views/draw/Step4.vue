@@ -1,7 +1,7 @@
 <script setup>
 import { onMounted } from 'vue';
 import GlobalStore from '@/stores/store';
-import { getTranslation, formatListEsclusi, actionModal } from '@/utils/utils';
+import { getTranslation, formatListEsclusi, actionModal, checkIfRedirect } from '@/utils/utils';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
@@ -16,6 +16,8 @@ const handleNavBackRestartApp = () => {
 onMounted(() => {
     actionModal("modalMessaggiSuccesso", "open"); // Apro il modal
 });
+
+checkIfRedirect(); // Controllo se ci sono gli elementi, altrimenti redirect
 </script>
 
 <template>
@@ -23,12 +25,8 @@ onMounted(() => {
         <!-- Alert info -->
         <div class="alert" role="alert">
             <h4 class="alert-heading mb-1">{{ getTranslation("alert.step4.congrats") }}</h4>
-            <p class="mb-0">{{ getTranslation("alert.step3.welcomeMessage") }}</p>
-            <hr />
-            <p class="mb-0">{{ getTranslation("alert.step4.instruction1") }}</p>
-            <p class="mb-0">{{ getTranslation("alert.step4.instruction2") }}</p>
-            <p class="mb-0">{{ getTranslation("alert.step4.instruction3") }}</p>
-            <p class="mb-0">{{ getTranslation("alert.step4.closingRemark") }}</p>
+            <p class="mb-0">{{ getTranslation("alert.step4.closingRemarks") }}</p>
+            <p class="mb-0">{{ getTranslation("alert.step4.closingRemarks.2") }}</p>
         </div>
 
         <!-- Tabella partecipanti -->
@@ -150,14 +148,14 @@ onMounted(() => {
     position: absolute;
     top: 30%;
     left: 10%;
-    --flatify__firework-animation-delay: 1.1s;
+    --flatify__firework-animation-delay: 1.8s;
 }
 
 #firework3 {
     position: absolute;
     top: 40%;
     left: 30%;
-    --flatify__firework-animation-delay: 1.8s;
+    --flatify__firework-animation-delay: 1.1s;
 }
 
 #firework4 {
