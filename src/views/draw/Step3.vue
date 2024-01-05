@@ -7,43 +7,30 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const errorModal = reactive({
-    message: ""
+    message: "",
+    list: []
 });
 
 // Handler del pulsante conferma del dialog
 const handleConfermaPress = () => {
-    let partecipanti = [...GlobalStore.elencoPartecipanti]; // Clono l'oggetto
+    const globalStore = JSON.parse(JSON.stringify(GlobalStore)); // Clono l'oggetto per non creare casini
     let object = { // Oggetto per chiamata
-        lang: GlobalStore.currentLanguage,
-        partecipanti: formattaPartecipanti(partecipanti)
+        lang: globalStore.currentLanguage,
+        partecipanti: formattaPartecipanti(globalStore.elencoPartecipanti)
     };
+
+    // Chiamata al backend
     busy(true); // Busy on
-
-    /* TODO Test success
-    setTimeout(() => {
-        busy(false); // Busy off
-        GlobalStore.successModal.message = "Success"; // Messaggio di successo
-        GlobalStore.successModal.list = []; // Lista dei messaggi
-        router.push('/draw/step4'); // Avanzo lo step
-        // deleteCookies(); // Elimino i cookie
-    }, 1000);
-    */
-
     axios.post(`${getBaseApiUrl()}/api/draw.php`, object).then(response => {
-        if (response.data.code === "00") { // Success
-            GlobalStore.successModal.message = response.data.message; // Messaggio di successo
-            GlobalStore.successModal.list = response.data.listaMessaggi; // Lista dei messaggi
-            router.push('/draw/step4'); // Avanzo lo step
-            deleteCookies(); // Elimino i cookie
-        } else { // Error
-            errorModal.message = response.data.message; // Messaggio di errore
-            actionModal("modalMessaggiErrore", "open"); // Apro il modal
-        }
-
         busy(false); // Busy off
+        GlobalStore.successModal.message = response.data?.message || getTranslation("modal.success.default.text"); // Messaggio di successo
+        GlobalStore.successModal.list = response.data?.listaMessaggi || []; // Lista dei messaggi
+        router.push('/draw/step4'); // Avanzo lo step
+        deleteCookies(); // Elimino i cookie
     }).catch(error => {
         busy(false); // Busy off
-        errorModal.message = getTranslation("message.error.call"); // Messaggio di errore
+        errorModal.message = error.response?.data?.message || getTranslation("message.error.call"); // Messaggio di errore
+        errorModal.list = error.response?.data?.listaMessaggi || []; // Lista messaggi di dettaglio
         actionModal("modalMessaggiErrore", "open"); // Apro il modal
     });
 };
@@ -151,6 +138,14 @@ checkIfRedirect(); // Controllo se ci sono gli elementi, altrimenti redirect
                 </div>
                 <div class="modal-body">
                     <p>{{ errorModal.message }}</p>
+                    <div v-if="errorModal.list.length > 0" class="mt-3" v-for="message in errorModal.list">
+                        <div class="alert style-danger has-icon table-cell-center mb-0" role="alert">
+                            <div class="alert-svg">
+                                <i class="fa-solid fa-xmark"></i>
+                            </div>
+                            {{ message.message }}
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer justify-content-end mb-3">
                     <button class="button style-danger close-modal">{{ getTranslation("button.close") }}</button>

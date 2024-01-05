@@ -16,7 +16,8 @@ return [
     'email.text.2' => 'Und du wurdest ausgewählt, ein Geschenk zu geben an...',
     'email.text.3' => 'Denk daran, es ist ein Geheimnis bis zum Geschenkaustausch! 🤫',
     'email.text.4' => 'Viel Spaß und frohe Feiertage! 🎁🎉',
-    'email.footer.text' => 'Dies ist eine automatisch generierte E-Mail für das Wichtel-Event. Deine E-Mail-Adresse wurde nicht gespeichert.'
+    'email.footer.text' => 'Dies ist eine automatisch generierte E-Mail für das Wichtel-Event. Deine E-Mail-Adresse wurde nicht gespeichert.',
+    'message.read.email.template.error' => 'Ein Fehler ist bei der Erstellung der E-Mails aufgetreten.'
 ];
 
 ?>

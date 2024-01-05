@@ -20,6 +20,17 @@ body {
 .modal-header .modal-title {
     font-weight: 800;
 }
+.modal-body p,
+.modal-body label {
+    font-weight: 700;
+    opacity: .7;
+}
+.modal-body .alert {
+    font-weight: 700;
+}
+.modal-body .form-label {
+    font-weight: 800;
+}
 
 /* Pulsanti */
 .button {

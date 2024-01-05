@@ -7,7 +7,7 @@ return [
     'message.extraction.not.possible' => 'Unable to extract all pairs, increase the number of participants or reduce exclusions.',
     'message.error.sending.email' => 'Error while sending the email.',
     'message.extraction.success' => 'Extraction successful!',
-    'message.email.error' => 'Error in sending the email to',
+    'message.email.error' => 'Error while sending the email to',
     'message.email.success.1' => 'Email sent to',
     'message.email.success.2' => 'successfully!',
     'email.subject' => 'Secret Santa Draw!',
@@ -16,7 +16,8 @@ return [
     'email.text.2' => 'And you have been chosen to give a gift to...',
     'email.text.3' => 'Remember, it\'s a secret until the gift exchange! 🤫',
     'email.text.4' => 'Have fun and happy holidays! 🎁🎉',
-    'email.footer.text' => 'This is an automatically generated email for the Secret Santa event. Your email has not been saved.'
+    'email.footer.text' => 'This is an automatically generated email for the Secret Santa event. Your email has not been saved.',
+    'message.read.email.template.error' => 'An error occurred while creating the emails.'
 ];
 
 ?>

@@ -67,7 +67,7 @@ export const deleteCookies = () => {
 // Controllo se ci sono gli elementi, altrimenti redirect
 export const checkIfRedirect = () => {
     const router = useRouter();
-    if (!(GlobalStore?.elencoPartecipanti?.length >= 3 && GlobalStore?.elencoPartecipanti[0]?.esclusi?.length))
+    if (!(GlobalStore.elencoPartecipanti?.length >= 3 && GlobalStore.elencoPartecipanti[0]?.esclusi?.length !== undefined))
         router.push('/draw/step1'); // Torno all'inizio
 };
 

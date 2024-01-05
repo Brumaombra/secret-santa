@@ -16,7 +16,8 @@ return [
     'email.text.2' => 'Et vous avez été choisi pour offrir un cadeau à...',
     'email.text.3' => 'Rappelez-vous, c\'est un secret jusqu\'à l\'échange de cadeaux ! 🤫',
     'email.text.4' => 'Amusez-vous bien et joyeuses fêtes ! 🎁🎉',
-    'email.footer.text' => 'Ceci est un e-mail généré automatiquement pour l\'événement Secret Santa. Votre adresse e-mail n\'a pas été enregistrée.'
+    'email.footer.text' => 'Ceci est un e-mail généré automatiquement pour l\'événement Secret Santa. Votre adresse e-mail n\'a pas été enregistrée.',
+    'message.read.email.template.error' => 'Une erreur s\'est produite lors de la création des e-mails.'
 ];
 
 ?>

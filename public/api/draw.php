@@ -15,24 +15,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Errore durante la decodifica del JSON
     if ($decoded_data === null || json_last_error() !== JSON_ERROR_NONE) {
+        http_response_code(400); // Codice HTTP di errore
         echo json_encode(array(
             'code' => '01',
             'message' => 'Error while parsing the request.'
         ));
         exit;
     }
-
+    
     // Prendo la lingua
     $lang = $decoded_data['lang'] ?? "en";
-    if (file_exists("lang/$lang.php")) { // Controllo se il file esiste
-        $translations = require "lang/$lang.php";
-    } else {
-        $translations = require "lang/en.php";
+    $allowed_languages = ['en', 'it', 'es', 'de', 'fr']; // Elenco delle lingue consentite
+    if (!in_array($lang, $allowed_languages)) {
+        $lang = 'en'; // Imposta un valore predefinito se la lingua non è nell'elenco
+    }
+
+    // Carico le traduzioni della lingua richiesta
+    $translations = @include("lang/$lang.php");
+    if (!$translations) {
+        http_response_code(500); // Codice HTTP di errore
+        echo json_encode(array(
+            'code' => '09',
+            'message' => "A generic error occurred."
+        ));
+        exit;
     }
 
     // Controllo che i dati ricevuti siano presenti e nel formato giusto
     $partecipanti = $decoded_data['partecipanti']; // Mi salvo la lista
     if (!isset($partecipanti) || !is_array($partecipanti)) {
+        http_response_code(400); // Codice HTTP di errore
         echo json_encode(array(
             'code' => '02',
             'message' => $translations['message.required.fields']
@@ -45,6 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $email = filter_var($partecipante['email'], FILTER_VALIDATE_EMAIL);
         $nome = $partecipante['nome'];
         if ($email === false || $nome === false) {
+            http_response_code(422); // Codice HTTP di errore
             echo json_encode(array(
                 'code' => '03',
                 'message' => $translations['message.data.not.valid.1'] . ' ' . $partecipante['nome'] . ' ' . $translations['message.data.not.valid.2']
@@ -56,6 +69,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Estraggo le coppie
     $coppie = assegnaRegali($partecipanti);
     if(!$coppie) { // Impossibile trovare tutte le coppie
+        http_response_code(409); // Codice HTTP di errore
         echo json_encode(array(
             'code' => '04',
             'message' => $translations['message.extraction.not.possible']
@@ -65,15 +79,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Mando le email
     $messaggi = inviaEmail($coppie, $translations);
-    /* if(!$messaggi) { // Errore durante l'invio delle email
-        echo json_encode(array(
+    $errore = array_filter($messaggi, function ($msg) { // Verifico la presenza di errori con codice '07'
+        return $msg['code'] === '07';
+    });
+
+    // Se c'è un errore con codice '07'
+    if (!empty($errore)) {
+        http_response_code(503); // Codice HTTP di errore
+        echo json_encode(array( // Errore durante l'invio delle email
             'code' => '05',
-            'message' => $translations['message.error.sending.email']
+            'message' => $translations['message.error.sending.email'],
+            'listaMessaggi' => $messaggi
         ));
         exit;
-    } */
+    }
 
     // Messaggio successo
+    http_response_code(200); // Codice HTTP di successo
     echo json_encode(array(
         'code' => '00',
         'message' => $translations['message.extraction.success'],
@@ -85,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // Estraggo persona
 function scegliCasuale($lista) {
-    $indiceCasuale = rand(0, count($lista) - 1);
+    $indiceCasuale = random_int(0, count($lista) - 1);
     return $lista[$indiceCasuale];
 }
 
@@ -161,7 +183,7 @@ function inviaEmail($partecipanti, $translations) {
             $mail->isHTML(true); // Marco come HTML
             $mail->setFrom('brumaombra@altervista.org', 'Secret Santa');
             $mail->clearAddresses();
-            $mail->addAddress($email, $nome);
+            $mail->addAddress($email, htmlspecialchars($nome));
             $mail->Subject = $translations['email.subject'];
             $mail->Body = $emailContent;
 
@@ -200,6 +222,16 @@ function getNameById($id, $lista) {
 // Prendo il template della mail
 function getEmailTemplate($translations) {
     $emailTemplate = file_get_contents('./email/email_template.html');
+    if ($emailTemplate === false) { // Errore durante la lettura del file
+        http_response_code(500); // Codice HTTP di errore
+        echo json_encode(array(
+            'code' => '08',
+            'message' => $translations['message.read.email.template.error']
+        ));
+        exit;
+    }
+
+    // Sostituisco i segnaposto nell'email
     $emailTemplate = str_replace('{email.hi}', $translations['email.hi'], $emailTemplate);
     $emailTemplate = str_replace('{email.text.1}', $translations['email.text.1'], $emailTemplate);
     $emailTemplate = str_replace('{email.text.2}', $translations['email.text.2'], $emailTemplate);

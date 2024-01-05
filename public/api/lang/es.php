@@ -16,7 +16,8 @@ return [
     'email.text.2' => 'Y has sido elegido para dar un regalo a...',
     'email.text.3' => 'Recuerda, es un secreto hasta el intercambio de regalos! 🤫',
     'email.text.4' => 'Diviértete y felices fiestas! 🎁🎉',
-    'email.footer.text' => 'Este es un correo electrónico generado automáticamente para el evento de Amigo Secreto. Tu correo electrónico no ha sido guardado.'
+    'email.footer.text' => 'Este es un correo electrónico generado automáticamente para el evento de Amigo Secreto. Tu correo electrónico no ha sido guardado.',
+    'message.read.email.template.error' => 'Se produjo un error durante la creación de los correos electrónicos.'
 ];
 
 ?>

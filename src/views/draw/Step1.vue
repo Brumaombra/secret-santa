@@ -77,8 +77,9 @@ const handleNextStepPress = () => {
     });
     GlobalStore.elencoPartecipanti.forEach((item, index) => {
         let filteredList = elencoPartecipanti.filter(partecipante => partecipante.id !== index); // Rimuovo lui stesso dalla lista delle persone escludibili
-        item.esclusi = item.esclusi ? item.esclusi : [...filteredList];
+        item.esclusi = [...filteredList];
     });
+    GlobalStore.elencoPartecipanti = JSON.parse(JSON.stringify(GlobalStore.elencoPartecipanti)); // Workaround per ripulire puntamenti
     router.push("/draw/step2"); // Avanzo allo step successivo
 };
 </script>
