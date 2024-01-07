@@ -1,7 +1,7 @@
 <script setup>
 import { reactive } from 'vue';
 import GlobalStore from '@/stores/store';
-import { getTranslation, setListOnCookies, actionModal } from '@/utils/utils';
+import { getTranslation, setListOnCookies, actionModal, cloneObject } from '@/utils/utils';
 import validator from 'validator';
 import { useRouter } from 'vue-router';
 
@@ -33,7 +33,7 @@ const handleEliminaPartecipante = (index) => {
 
 // Handler del pulsante modifica del dialog
 const handleModificaPartecipante = (index) => {
-    Object.assign(modalNuovoPartecipante, { ...GlobalStore.elencoPartecipanti[index] });
+    Object.assign(modalNuovoPartecipante, cloneObject(GlobalStore.elencoPartecipanti[index]));
     modalNuovoPartecipante.currentEdit = index; // Flag per indicare che l'utente sta modificando un partecipante
     modalNuovoPartecipante.nomeIsValid = true; // Flag per indicare se il nome è valido
     modalNuovoPartecipante.emailIsValid = true; // Flag per indicare se l'email è valida
@@ -68,7 +68,7 @@ const validateEmail = (event) => {
 
 // Handlewr della pressione del pulsante avanti
 const handleNextStepPress = () => {
-    let elencoPartecipanti = [...GlobalStore.elencoPartecipanti].map((item, index) => {
+    let elencoPartecipanti = cloneObject(GlobalStore.elencoPartecipanti).map((item, index) => {
         return {
             id: index,
             nome: item.nome,
@@ -77,9 +77,9 @@ const handleNextStepPress = () => {
     });
     GlobalStore.elencoPartecipanti.forEach((item, index) => {
         let filteredList = elencoPartecipanti.filter(partecipante => partecipante.id !== index); // Rimuovo lui stesso dalla lista delle persone escludibili
-        item.esclusi = [...filteredList];
+        item.esclusi = cloneObject(filteredList);
     });
-    GlobalStore.elencoPartecipanti = JSON.parse(JSON.stringify(GlobalStore.elencoPartecipanti)); // Workaround per ripulire puntamenti
+    GlobalStore.elencoPartecipanti = cloneObject(GlobalStore.elencoPartecipanti); // Workaround per ripulire puntamenti
     router.push("/draw/step2"); // Avanzo allo step successivo
 };
 </script>

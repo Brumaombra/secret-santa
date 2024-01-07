@@ -76,6 +76,11 @@ export const getBaseApiUrl = () => {
     return process.env.NODE_ENV === "development" ? "http://localhost/santa/public" : "/santa";
 }
 
+// Clono l'oggetto
+export const cloneObject = (object) => {
+    return JSON.parse(JSON.stringify(object));
+}
+
 // Funzione di criptazione
 const encrypt = (text) => {
     return CryptoJS.AES.encrypt(text, getCryptoKey()).toString();
